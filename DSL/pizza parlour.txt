@@ -1,145 +1,110 @@
 #include<iostream>
 #include<cstdlib>
 using namespace std;
-class pizza
-{
- int front,rear,q[5];
- public:
- pizza()
- {
- front=-1;
- rear=-1;
- }
- int isfull()
- {
 
-if((front==0&&rear==4)||front==rear+1)
- {
- return 1;
- }
-else
-{
- return 0;
- }
- }
- int isempty()
- {
- if(front==-1&&rear==-1)
- {
- return 1;
- }
- else
-{
- return 0;
- }
- }
- void add()
- {
- if(isfull()==0)
- {
- cout<<"\n Enter the Pizza ID: ";
- if(front==-1&&rear==-1)
- {
- front=0;
- rear=0;
- cin>>q[rear];
- }
- else
- {
- rear=(rear+1)%5;
- cin>>q[rear];
- }
- char c;
- cout<<" Do you want to add another order ? ";
- cin>>c;
- if(c=='y'||c=='Y')
- add();
- }
- else
- {
- cout<<"\n Orders are full ";
- }
+class pizza {
+    int front, rear, q[5];  // circular queue with size 5
+public:
+    pizza() {
+        front = -1;
+        rear = -1;
+    }
 
- }
- void serve()
- {
- if(isempty()==0)
- {
- if(front==rear)
- {
- cout<<"\n Order served is : "<<q[front];
- front=-1;
- rear=-1;
- }
- else
- {
- cout<<"\n Order served is : "<<q[front];
- front=(front+1)%5;
- }
- }
- else
- {
- cout<<"\n Orders are empty ";
- }
- }
- void display()
- {
- if(isempty()==0)
- {
- for(int
-i=front;i!=rear;i=(i+1)%5)
- {
- cout<<q[i]<<"
-<- ";
- }
- cout<<q[rear];
- }
- else
- {
- cout<<"\n Orders are empty";
- }
- }
- void check()
- {
- int ch;
-cout<<"\n\n * * * * PIZZA PARLOUR * * * * \n\n";
- cout<<"\n 1. Add a Pizza \n 2. Display the Orders \n 3. Serve a pizza \n 4. Exit \n Enter your choice : ";
- cin>>ch;
-switch(ch)
-{
- case 1:
- add();
-break;
+    // Check if the queue is full
+    int isfull() {
+        return (front == 0 && rear == 4) || (front == rear + 1);
+    }
 
- case 2:
+    // Check if the queue is empty
+    int isempty() {
+        return front == -1 && rear == -1;
+    }
 
-display();
- break;
+    // Add a pizza order to the queue
+    void add() {
+        if (!isfull()) {
+            cout << "\nEnter the Pizza ID: ";
+            if (front == -1 && rear == -1) {
+                front = rear = 0;
+                cin >> q[rear];
+            } else {
+                rear = (rear + 1) % 5;
+                cin >> q[rear];
+            }
+        } else {
+            cout << "\nOrders are full!";
+        }
+    }
 
- case 3:
+    // Serve a pizza order
+    void serve() {
+        if (!isempty()) {
+            cout << "\nOrder served: " << q[front];
+            if (front == rear) {
+                front = rear = -1;  // Queue is empty now
+            } else {
+                front = (front + 1) % 5;  // Move front pointer
+            }
+        } else {
+            cout << "\nOrders are empty!";
+        }
+    }
 
-serve();
- break;
+    // Display all pizza orders in the queue
+    void display() {
+        if (!isempty()) {
+            int i = front;
+            cout << "\nCurrent orders: ";
+            while (i != rear) {
+                cout << q[i] << " <- ";
+                i = (i + 1) % 5;
+            }
+            cout << q[rear];
+        } else {
+            cout << "\nOrders are empty!";
+        }
+    }
 
- case 4:
+    // Main menu for interaction
+    void check() {
+        int ch;
+        while (true) {
+            cout << "\n\n* * * * PIZZA PARLOUR * * * *\n\n";
+            cout << "1. Add a Pizza\n";
+            cout << "2. Display the Orders\n";
+            cout << "3. Serve a pizza\n";
+            cout << "4. Exit\n";
+            cout << "Enter your choice: ";
+            cin >> ch;
 
-exit(0);
+            switch (ch) {
+                case 1:
+                    add();
+                    break;
+                case 2:
+                    display();
+                    break;
+                case 3:
+                    serve();
+                    break;
+                case 4:
+                    exit(0);  // Exit the program
+                default:
+                    cout << "Invalid choice!";
+            }
 
- default:
- cout<<"Invalid choice ";
-
-check();
- }
-char ch1;
-cout<<"\n Do you want to continue? ";
- cin>>ch1;
- if(ch1=='y'||ch1=='Y')
-check();
- }
+            char ch1;
+            cout << "\nDo you want to continue? (y/n): ";
+            cin >> ch1;
+            if (ch1 == 'n' || ch1 == 'N') {
+                break;  // Exit the loop if user doesn't want to continue
+            }
+        }
+    }
 };
-int main()
-{
- pizza p1;
- p1.check();
- return 0;
+
+int main() {
+    pizza p1;
+    p1.check();  // Start the interaction
+    return 0;
 }
