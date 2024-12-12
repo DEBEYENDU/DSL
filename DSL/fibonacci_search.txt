@@ -1,0 +1,51 @@
+def fibonacci_search(arr, x):
+    n = len(arr)
+   
+    # Initialize the first two Fibonacci numbers
+    fib2 = 0  # (m-2)'th Fibonacci number
+    fib1 = 1  # (m-1)'th Fibonacci number
+    fibM = fib2 + fib1  # m'th Fibonacci number
+
+    # fibM is the smallest Fibonacci number greater than or equal to n
+    while (fibM < n):
+        fib2 = fib1
+        fib1 = fibM
+        fibM = fib2 + fib1
+
+    # Marks the eliminated range from front
+    offset = -1
+
+    # While there are elements to be inspected
+    while (fibM > 1):
+        # Check if fib2 is a valid location
+        i = min(offset + fib2, n-1)
+
+        # If x is greater than the value at index fib2, cut the subarray from offset to i
+        if (arr[i] < x):
+            fibM = fib1
+            fib1 = fib2
+            fib2 = fibM - fib1
+            offset = i
+
+        # If x is less than the value at index fib2, cut the subarray after i+1
+        elif (arr[i] > x):
+            fibM = fib2
+            fib1 = fib1 - fib2
+            fib2 = fibM - fib1
+
+        # Element found. Return index
+        else:
+            return i
+
+    # Compare the last element with x
+    if(fib1 and arr[offset + 1] == x):
+        return offset + 1
+
+    # Element not found. Return -1
+    return -1
+
+# Example usage
+arr = [10, 22, 35, 40, 45, 50, 80, 82, 85, 90, 100]
+x = 85
+result = fibonacci_search(arr, x)
+print(f"Element found at index: {result}" if result != -1 else "Element not found")

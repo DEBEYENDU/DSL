@@ -1,0 +1,80 @@
+#include&lt;iostream&gt;
+using namespace std;
+#define size 30
+int main()
+{
+char stk[size],exp[size],ans;
+int top,i;
+do
+{
+top=-1;
+cout&lt;&lt;&quot;Enter the expression\t&quot;;
+cin&gt;&gt;exp;
+for(i=0;exp[i]!=&#39;\0&#39;;i++)
+{
+if(exp[i]==&#39;(&#39; || exp[i]==&#39;[&#39; || exp[i]==&#39;{&#39;)
+{
+top++;
+stk[top]=exp[i];
+}
+else if(exp[i]==&#39;)&#39;)
+{
+if(stk[top]==&#39;(&#39;)
+{
+top--;
+}
+else
+{
+cout&lt;&lt;&quot;Given expression is not well
+
+parenthesized&quot;&lt;&lt;endl;
+return 0;
+}
+
+}
+else if(exp[i]==&#39;]&#39;)
+{
+if(stk[top]==&#39;[&#39;)
+{
+top--;
+}
+else
+{
+cout&lt;&lt;&quot;Given expression is not well
+
+parenthesized&quot;&lt;&lt;endl;
+return 0;
+}
+}
+else if(exp[i]==&#39;}&#39;)
+{
+if(stk[top]==&#39;{&#39;)
+{
+top--;
+}
+else
+{
+cout&lt;&lt;&quot;Given expression is not well
+
+parenthesized&quot;&lt;&lt;endl;
+return 0;
+}
+}
+}
+if(top==-1)
+{
+cout&lt;&lt;&quot;Given Expression well is
+Parenthesized&quot;&lt;&lt;endl;
+}
+else
+{
+cout&lt;&lt;&quot;Given expression is not well
+
+parenthesized&quot;&lt;&lt;endl;
+}
+cout&lt;&lt;&quot;Do You Want to continue??\t&quot;;
+cin&gt;&gt;ans;
+
+}while(ans==&#39;y&#39;);
+return 0;
+}

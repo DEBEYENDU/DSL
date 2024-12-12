@@ -1,0 +1,188 @@
+#include <iostream>
+using namespace std;
+class sllnode
+{
+	int prn;
+	char name[100];
+	sllnode *next;
+
+    public:
+	void getdata(int x);
+	void display();
+	void insert();
+	void count();
+	void Reverse();
+	void del();
+}*pres=NULL,*scre;
+void sllnode::insert()
+{
+	int pos;
+	sllnode *newnode;
+	sllnode *temp;
+	newnode=new sllnode;
+
+	cout<<"\n Enter Data(PRN,Name)";
+	cin>>newnode->prn>>newnode->name;
+	newnode->next=NULL;
+	cout<<"\n Enter position where to insert(pres=0;scre=1,member=2)";
+	cin>>pos;
+	if(pos==0)
+	{
+		newnode->next=pres;
+		pres=newnode;
+	}
+	else if(pos==1)
+	{
+		scre->next=newnode;
+		scre=newnode;
+	}
+	else
+	{
+		temp=pres;
+		while(temp->next!=scre)
+		{
+			temp=temp->next;
+		}
+		temp->next=newnode;
+		newnode->next=scre;
+	}
+}
+void sllnode:: del()
+{
+	int pos,pr;
+	sllnode *p,*q;
+	cout<<"\n Enter position to delete(pres= 0;scre= 1,member=2)";
+	cin>>pos;
+	if(pos==0)
+	{
+		p=pres;
+		pres=pres->next;
+		delete(p);
+	}
+	else if(pos==1)
+	{
+		p=pres;
+		while(p->next!=scre)
+			p=p->next;
+		p->next=NULL;
+		delete(scre);
+		scre=p;
+	}
+	else
+	{
+		cout<<"\n Enter PRN number to delete";
+		cin>>pr;
+		p=pres;
+		while(p->next->prn!=pr)
+		{
+			p=p->next;
+		}
+		q=p->next;
+		p->next=q->next;
+		delete(q);
+	}
+}
+void sllnode::getdata(int n)
+{
+	sllnode *newnode;
+	for(int i=0;i<n;i++)
+	{
+		newnode=new sllnode;
+		cout<<"\n Enter Data(PRN,NAME)";
+		cin>>newnode->prn>>newnode->name;
+		newnode->next=NULL;
+		if(pres==NULL)
+		{
+			pres=newnode;
+			scre=newnode;
+		}
+		else
+		{
+			scre->next=newnode;
+			scre=newnode;
+		}
+	}
+}
+void sllnode::display()
+{
+	sllnode *temp;
+	temp=pres;
+	while(temp!=NULL)
+	{
+		cout<<temp->prn<<"   "<<temp->name<<"\n";
+		temp=temp->next;
+	}
+}
+
+void sllnode::Reverse()
+{
+	sllnode *p,*q,*r;
+	p=pres;
+	q=p->next;
+	r=q->next;
+
+	p->next=NULL;
+	scre=p;
+	while(r!=NULL)
+	{
+		q->next=p;
+		p=q;
+		q=r;
+		r=r->next;
+	}
+	q->next=p;
+	pres=q;
+    while(q!=NULL)
+	{
+		cout<<q->prn<<"      "<<q->name<<endl;
+		q=q->next;
+	}
+}
+void sllnode:: count()
+{
+	sllnode *temp;
+	temp=pres;
+	int cnt=0;
+	while(temp!=NULL)
+	{
+		temp=temp->next;
+		cnt++;
+	}
+	cout<<"\n Total number of member for Pinnacle club==>"<<cnt<<endl;
+}
+int main()
+{
+	sllnode s1;
+	int n;
+	cout<<"\n enter number of member for pinnacle club";
+	cin>>n;
+	s1.getdata(n);
+	s1.display();
+	int ch;
+	do
+	{
+		cout<<"-----------------MENU-------------------";
+		cout<<"\n 1.Insert Node :-";
+		cout<<"\n 2.Delete Node :-";
+		cout<<"\n 3.Display of club members :-";
+		cout<<"\n 4.Reverse of Data:-";
+		cout<<"\n 5.count of node:-";
+		cout<<"\n Enter your Choice :-";
+		cin>>ch;
+		switch(ch)
+		{
+		case 1:s1.insert();
+		       break;
+		case 2:s1.del();
+		       break;
+		case 3:s1.display();
+		       break;
+		case 4:s1.Reverse();
+		      break;
+		case 5:s1.count();
+	         break;
+	}
+}
+while(ch<6);
+return 0;
+}
